@@ -68,7 +68,7 @@ RedirectPizza.NET supports interacting with endpoints using a previously returne
 model. This allows you to create LINQ queries:
 ```csharp
 pizza.Redirects.ListRedirects().Items
-    .Where(r => r.Tags.Contains("Marketing"))d
+    .Where(r => r.Tags.Contains("Marketing"))
     .ToList()
     .ForEach(r => 
     {
