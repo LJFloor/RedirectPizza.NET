@@ -9,4 +9,6 @@ public class TeamEndpoint : Endpoint
     internal TeamEndpoint(RestClient client) : base(client) { }
 
     public async Task<Team> GetTeamAsync() => (await Get<RedirectPizzaResource<Team>>("team")).Data;
+
+    public void GetTeam() => GetTeamAsync().GetAwaiter().GetResult();
 }

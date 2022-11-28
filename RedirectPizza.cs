@@ -10,7 +10,7 @@ public class RedirectPizza
     public RedirectPizza(string apiKey)
     {
         _client = new RestClient();
-        _client.Options.Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(apiKey, "Bearer");
+        _client.Authenticator = new OAuth2AuthorizationRequestHeaderAuthenticator(apiKey, "Bearer");
         _client.AddDefaultHeader("User-Agent", "RedirectPizza.NET/v1");
     }
     
