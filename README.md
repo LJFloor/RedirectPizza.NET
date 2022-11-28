@@ -41,7 +41,7 @@ var redirects = pizza.Redirects.ListRedirects(1, 25);
 ```
 
 ### Creating and updating redirects.
-For creating and updating redirects you have to use separate models. This is because
+For creating redirects you have to use a separate model. This is because
 the redirect.pizza api works with different models too.
 
 ```csharp
@@ -65,7 +65,7 @@ redirect.Save();
 
 ### LINQ
 RedirectPizza.NET supports interacting with endpoints using a previously returned
-model. This allows you to create LINQ queries.d
+model. This allows you to create LINQ queries:
 ```csharp
 pizza.Redirects.ListRedirects().Items
     .Where(r => r.Tags.Contains("Marketing"))d
@@ -77,7 +77,7 @@ pizza.Redirects.ListRedirects().Items
     });
 ```
 
-Or delete all marketing redirects:
+So you can delete all marketing redirects:
 ```csharp
 pizza.Redirects.ListRedirects().Items
     .Where(r => r.Tags.Contains("Marketing"))
