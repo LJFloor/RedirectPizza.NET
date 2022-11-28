@@ -15,20 +15,32 @@ public class Redirect
         return this;
     }
 
-    public async Task<Redirect?> UpdateAsync() =>
+    /// <summary>
+    /// Confirm all changes made to the model
+    /// </summary>
+    public async Task SaveAsync() =>
         await _endpoint.UpdateFromModelAsync(this);
-
-    public Redirect? Update() => UpdateAsync().GetAwaiter().GetResult();
-
-    public Task DeleteAsync() => _endpoint.DeleteRedirectAsync(Id);
     
-    public void Delete() => DeleteAsync().RunSynchronously();
+    /// <summary>
+    /// Confirm all changes made to the model
+    /// </summary>
+    public void Save() => SaveAsync().GetAwaiter().GetResult();
+
+    /// <summary>
+    /// Delete the redirect
+    /// </summary>
+    public async Task DeleteAsync() => await _endpoint.DeleteFromModelAsync(Id);
+    
+    /// <summary>
+    /// Delete the redirect
+    /// </summary>
+    public void Delete() => DeleteAsync().GetAwaiter().GetResult();
     
     /// <summary>
     /// Id of the redirect
     /// </summary>
     [JsonPropertyName("id")]
-    public int Id { get; set; }
+    public int Id { get; init; }
 
     /// <summary>
     /// URLs to be redirected, i.e. the 'from' URLs
@@ -40,7 +52,7 @@ public class Redirect
     /// Parsed domains from the defined sources
     /// </summary>
     [JsonPropertyName("domains")]
-    public List<Domain> Domains { get; init; }
+    public IReadOnlyList<Domain> Domains { get; init; }
 
     /// <summary>
     /// Destination URL, i.e. where to redirect to
@@ -88,11 +100,14 @@ public class Redirect
 
 public class Source
 {
+    public Source(string url) => Url = url;
+    internal Source() {}
+    
     /// <summary>
     /// The id of the source
     /// </summary>
     [JsonPropertyName("id")]
-    public int Id { get; set; }
+    public int Id { get; init; }
 
     /// <summary>
     /// The source URL including path definitions
@@ -114,4 +129,3 @@ public enum RedirectType
     [EnumMember(Value = "temporary:307")]
     Temporary307
 }
-

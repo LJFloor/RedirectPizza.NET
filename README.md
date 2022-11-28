@@ -7,14 +7,19 @@ const apiToken = "XXXXXX";  // You can find this token on https://redirect.pizza
 var pizza = new RedirectPizza.NET.RedirectPizza(apiToken);
 ```
 
+# Endpoints
+- `Redirects`
+- `EmailForwards`
+- `Team`
+
 # Metadata
-The `ListRedirects()` and `ListEmailForwards()` methods return two things: The `Data` and `Meta` information.
+The `ListRedirects()` and `ListEmailForwards()` methods return two things: The `Items` and `Meta` information.
 The meta property contains things like the current page, the next page number and the
 amount of pages. This makes it easy to add pages to your application.
 ```csharp
 var redirects = pizza.Redirects.ListRedirects();
 
-Console.WriteLine($"Current page: {redirects.Meta.CurrentPage}");
+Console.WriteLine($"Current page: {redirects.Meta.CurrentPage}"); // Current page: 1
 ```
 
 # Examples
@@ -52,49 +57,29 @@ var redirect = pizza.Redirects.CreateRedirect(new CreateRedirect()
 ```
 
 You can update a redirect by making the modifications you want to the model itself.
-Then you confirm the changes by running `redirect.Update()`:
+Then you confirm the changes by running `redirect.Save()`:
 ```csharp
 redirect.Tracking = false;
-redirect.Update();
-```
-
-Alternatively, you can specify a set of changes to the `UpdateRedirect()` or 
-`UpdateRedirectAsync()` methods:
-```csharp
-pizza.Redirects.UpdateRedirect(123456789, new UpdateRedirect() {
-    Tracking = false,
-});
+redirect.Save();
 ```
 
 ### LINQ
 RedirectPizza.NET supports interacting with endpoints using a previously returned
-model. This allows you to create LINQ queries.
+model. This allows you to create LINQ queries.d
 ```csharp
-pizza.Redirects.ListRedirects().Data
-    .Where(r => r.Tags.Contains("Marketing"))
+pizza.Redirects.ListRedirects().Items
+    .Where(r => r.Tags.Contains("Marketing"))d
     .ToList()
     .ForEach(r => 
     {
         r.Tags.Add("Sales");
-        r.Update();  
-    });
-```
-
-Or you maybe you want to change all redirect types:
-```csharp
-pizza.Redirects.ListRedirects().Data
-    .Where(r => r.RedirectType != RedirectType.Permantent)
-    .ToList()
-    .ForEach(r => 
-    {
-        r.RedirectType = RedirectType.Permanent;
-        r.Update();  
+        r.Save();  
     });
 ```
 
 Or delete all marketing redirects:
 ```csharp
-pizza.Redirects.ListRedirects().Data
+pizza.Redirects.ListRedirects().Items
     .Where(r => r.Tags.Contains("Marketing"))
     .ToList()
     .ForEach(r => r.Delete());
@@ -102,17 +87,19 @@ pizza.Redirects.ListRedirects().Data
 
 Or perhaps you gave up on the whole tags thing:
 ```csharp
-pizza.Redirects.ListRedirects().Data
+pizza.Redirects.ListRedirects().Items
     .Where(r => r.Tags.Any())
     .ToList()
     .ForEach(r =>
     {
         r.Tags.Clear();
-        r.Update();
+        r.Save();
     });
 ```
 
-Or simply delete a redirect by its id:
-```csharp
-pizza.Redirects.DeleteRedirect(123456789);
-```
+# Exceptions
+ - `PlanLimitReachedException`: When you are trying to do an operation that is not
+    available in your plan, for example using the `EmailForwards` endpoint with a
+    free account.
+ - `UnprocessableEntityException`: When you are passing invalid arguments, for example
+   a `Tag` that is more than 15 characters long.

@@ -1,6 +1,7 @@
 using System.Globalization;
 using RedirectPizza.NET.Exceptions;
 using RedirectPizza.NET.Models;
+using RedirectPizza.NET.Models.General;
 using RedirectPizza.NET.Models.Redirect;
 using RestSharp;
 
@@ -16,10 +17,10 @@ public class RedirectEndpoint : Endpoint
     /// <param name="page">The page to show</param>
     /// <param name="perPage">The amount of items to show per page. Default is all.</param>
     /// <returns>RedirectCollection</returns>
-    public async Task<RedirectCollection> ListRedirectsAsync(int page = 1, int perPage = int.MaxValue)
+    public async Task<RedirectPizzaCollection<Redirect>> ListRedirectsAsync(int page = 1, int perPage = int.MaxValue)
     {
-        var redirections = await Get<RedirectCollection>($"redirects?page={page}&per_page={perPage}");
-        redirections.Data.ForEach(s => s.WithEndpoint(this));
+        var redirections = await Get<RedirectPizzaCollection<Redirect>>($"redirects?page={page}&per_page={perPage}");
+        redirections.Items.ForEach(s => s.WithEndpoint(this));
         return redirections;
     }
 
@@ -29,7 +30,7 @@ public class RedirectEndpoint : Endpoint
     /// <param name="page">The page to show</param>
     /// <param name="perPage">The amount of items to show per page. Default is all.</param>
     /// <returns>RedirectCollection</returns>
-    public RedirectCollection ListRedirects(int page = 1, int perPage = int.MaxValue) =>
+    public RedirectPizzaCollection<Redirect> ListRedirects(int page = 1, int perPage = int.MaxValue) =>
         ListRedirectsAsync(page, perPage).GetAwaiter().GetResult();
 
     /// <summary>
@@ -41,7 +42,7 @@ public class RedirectEndpoint : Endpoint
     {
         try
         {
-            return (await Get<GetRedirectResponse>($"redirects/{id}")).Data.WithEndpoint(this);
+            return (await Get<RedirectPizzaResource<Redirect>>($"redirects/{id}")).Data.WithEndpoint(this);
         }
         catch (ResourceNotFoundException)
         {
@@ -62,32 +63,22 @@ public class RedirectEndpoint : Endpoint
     /// <param name="createRedirect">The CreateRedirect object to add</param>
     /// <returns>The newly created redirect object</returns>
     public async Task<Redirect> CreateRedirectAsync(CreateRedirect createRedirect) => 
-        (await Post<GetRedirectResponse>("redirects", createRedirect)).Data.WithEndpoint(this);
+        (await Post<RedirectPizzaResource<Redirect>>("redirects", createRedirect)).Data.WithEndpoint(this);
 
-    /// <summary>
-    /// Create a new redirect
+    //RedirectPizzaResource<Redirect>/ <summary>
+    /// Create a new redRedirectPizzaResource<Redirect>irect
     /// </summary>
     /// <param name="createRedirect">The CreateRedirect object to add</param>
     /// <returns>The newly created redirect object</returns>
     public Redirect CreateRedirect(CreateRedirect createRedirect) =>
         CreateRedirectAsync(createRedirect).GetAwaiter().GetResult();
-    
+
     /// <summary>
-    /// Update a redirect. All fields in the UpdateRedirect object are optional (nullable)
+    /// Update all changes made to a model. This method is called by the Save() and SaveAsync() methods of a redirect
+    /// object.
     /// </summary>
-    /// <param name="id">The id of the redirect to update</param>
-    /// <param name="updateRedirect">An UpdateRedirect object containing all fields that should be updated.</param>
-    /// <returns>The updated redirect</returns>
-    public async Task<Redirect?> UpdateRedirectAsync(int id, UpdateRedirect updateRedirect)
-    {
-        var result = await Put<Redirect?>($"redirects/{id}", updateRedirect);
-        return result?.WithEndpoint(this);
-    }
-
-    public Redirect? UpdateRedirect(int id, UpdateRedirect updateRedirect) =>
-        UpdateRedirectAsync(id, updateRedirect).GetAwaiter().GetResult();
-
-    internal async Task<Redirect?> UpdateFromModelAsync(Redirect redirect)
+    /// <param name="redirect">The redirect to update.</param>
+    internal async Task UpdateFromModelAsync(Redirect redirect)
     {
         var updateRedirect = new UpdateRedirect
         {
@@ -100,14 +91,14 @@ public class RedirectEndpoint : Endpoint
             Tags = redirect.Tags
         };
         
-        var result = await Put<Redirect?>($"redirects/{redirect.Id}", updateRedirect);
-        return result?.WithEndpoint(this);
+        await Put($"redirects/{redirect.Id}", updateRedirect);
     }
     
 
     /// <summary>
-    /// Delete a redirect by its id.
+    /// Delete a redirect by its id. This function is called by the Delete() and DeleteAsync() methods of a redirect
+    /// object.
     /// </summary>
     /// <param name="id">The id of the redirect to delete</param>
-    public async Task DeleteRedirectAsync(int id) => await Delete($"redirects/{id}");
+    internal async Task DeleteFromModelAsync(int id) => await Delete($"redirects/{id}");
 }

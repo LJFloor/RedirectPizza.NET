@@ -26,6 +26,12 @@ public class RedirectPizza
     /// 2 parts, the alias (before the '@') and the domain (after the '@'). The destination is the email address where
     /// the email is forwarded to.
     /// </summary>
-    private EmailForwardEndpoint? _emailForwards;
     public EmailForwardEndpoint EmailForwards => _emailForwards ??= new EmailForwardEndpoint(_client);
+    private EmailForwardEndpoint? _emailForwards;
+
+    /// <summary>
+    /// The team API allows you to fetch/analyse the team's quota.
+    /// </summary>
+    public TeamEndpoint Team => _team ??= new TeamEndpoint(_client);
+    private TeamEndpoint? _team;
 }

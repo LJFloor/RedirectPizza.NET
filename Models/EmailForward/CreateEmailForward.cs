@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using RedirectPizza.NET.Models.General;
 
 namespace RedirectPizza.NET.Models.EmailForward;
 
@@ -23,7 +24,7 @@ public class CreateEmailForward
     public string Destination { get; set; }
 }
 
-public class UpdateEmailForward
+internal class UpdateEmailForward
 {
     /// <summary>
     /// The alias path (i.e. the part before the '@'). Using a '*' character will create a catch-all email forward.
@@ -35,7 +36,7 @@ public class UpdateEmailForward
     /// Domain of the email forward for the 'from' part. Must be a domain you own and can manage DNS for.
     /// </summary>
     [JsonPropertyName("domain")]
-    public string? Domain { get; set; }
+    public Domain? Domain { get; set; }
 
     /// <summary>
     /// Where to forward the email to. Must be a valid email address.

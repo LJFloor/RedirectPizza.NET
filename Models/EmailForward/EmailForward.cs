@@ -18,18 +18,46 @@ public class EmailForward
         _endpoint = endpoint;
         return this;
     }
+
+    /// <summary>
+    /// Confirm all changes made to the model.
+    /// </summary>
+    /// <returns></returns>
+    public Task SaveAsync() => _endpoint.UpdateFromModelAsync(this);
+
+    /// <summary>
+    /// Confirm all changes made to the model.
+    /// </summary>
+    public void Save() => SaveAsync().GetAwaiter().GetResult();
     
+    /// <summary>
+    /// Delete the email forward.
+    /// </summary>
+    /// <returns></returns>
+    public Task DeleteAsync() => _endpoint.DeleteFromModelAsync(Id);
+
+    /// <summary>
+    /// Delete the email forward.
+    /// </summary>
+    public void Delete() => DeleteAsync().GetAwaiter().GetResult();
+    
+    /// <summary>
+    /// The id of the email forward.
+    /// </summary>
     [JsonPropertyName("id")]
-    public int Id { get; set; }
+    public int Id { get; init; }
     
+    /// <summary>
+    /// Information about the domain of the email forward.
+    /// </summary>
     [JsonPropertyName("domain")] 
-    public Domain Domain { get; set; }
+    public Domain Domain { get; init; }
 
     /// <summary>
     /// The alias path (i.e. the part before the '@'). Using a '*' character will create a catch-all email forward.
     /// </summary>
     [JsonPropertyName("alias")]
-    public string Alias { get; set; }
+    public string Alias { get; init; }
 
     /// <summary>
     /// Where to forward the email to. Must be a valid email address.
