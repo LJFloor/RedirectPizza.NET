@@ -1,6 +1,8 @@
 # RedirectPizza.NET
 A way to interact with [redirect.pizza's api](https://redirect.pizza/api) in c sharp.
 
+You can either clone the source code or install it using [NuGet](https://www.nuget.org/packages/RedirectPizza.NET).
+
 # Usage
 ```csharp
 const apiToken = "XXXXXX";  // You can find this token on https://redirect.pizza/api
