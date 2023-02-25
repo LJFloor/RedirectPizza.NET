@@ -5,12 +5,13 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageProjectUrl>https://github.com/LJFloor/RedirectPizza.NET</PackageProjectUrl>
+        <PackageProjectUrl></PackageProjectUrl>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <RepositoryUrl>https://github.com/LJFloor/RedirectPizza.NET</RepositoryUrl>
         <PackageTags>RedirectPizza.NET redirect.pizza</PackageTags>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <Copyright>© LJFloor 2022</Copyright>
+        <Version>1.1.0</Version>
     </PropertyGroup>
 
     <ItemGroup>
