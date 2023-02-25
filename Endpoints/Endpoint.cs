@@ -1,7 +1,6 @@
 using System.Net;
 using System.Text.Json;
 using RedirectPizza.NET.Exceptions;
-using RedirectPizza.NET.Models;
 using RedirectPizza.NET.Models.Redirect;
 using RestSharp;
 

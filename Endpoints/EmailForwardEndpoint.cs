@@ -1,7 +1,6 @@
 using RedirectPizza.NET.Exceptions;
 using RedirectPizza.NET.Models.EmailForward;
 using RedirectPizza.NET.Models.General;
-using RedirectPizza.NET.Models.Redirect;
 using RestSharp;
 
 namespace RedirectPizza.NET.Endpoints;
@@ -15,7 +14,7 @@ public class EmailForwardEndpoint : Endpoint
     /// </summary>
     /// <param name="page">The page to show</param>
     /// <param name="perPage">The amount of items to show per page. Default is all.</param>
-    /// <returns>EmailForwardCollection</returns>
+    /// <returns>RedirectPizzaCollection</returns>
     public async Task<RedirectPizzaCollection<EmailForward>> ListEmailForwardsAsync(int page = 1, int perPage = int.MaxValue)
     {
         var emailForwards = await Get<RedirectPizzaCollection<EmailForward>>($"email-forwards?page={page}&per_page={perPage}");
@@ -28,7 +27,7 @@ public class EmailForwardEndpoint : Endpoint
     /// </summary>
     /// <param name="page">The page to show</param>
     /// <param name="perPage">The amount of items to show per page. Default is all.</param>
-    /// <returns>EmailForwardCollection</returns>
+    /// <returns>RedirectPizzaCollection</returns>
     public RedirectPizzaCollection<EmailForward> ListEmailForwards(int page = 1, int perPage = int.MaxValue) =>
         ListEmailForwardsAsync(page, perPage).GetAwaiter().GetResult();
 
@@ -68,6 +67,13 @@ public class EmailForwardEndpoint : Endpoint
         (await Post<RedirectPizzaResource<EmailForward>>("email-forwards", createEmailForward)).Data
             .WithEndpoint(this);
 
+    /// <summary>
+    /// Create a new email forward
+    /// </summary>
+    /// <param name="createEmailForward">
+    /// The CreateEmailForward model containing all information about the email forward
+    /// </param>
+    /// <returns>The newly created EmailForward object</returns>
     public EmailForward CreateEmailForward(CreateEmailForward createEmailForward) =>
         CreateEmailForwardAsync(createEmailForward).GetAwaiter().GetResult();
     

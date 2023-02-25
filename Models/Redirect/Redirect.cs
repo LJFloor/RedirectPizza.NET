@@ -1,7 +1,6 @@
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using RedirectPizza.NET.Endpoints;
-using RedirectPizza.NET.Models.General;
 
 namespace RedirectPizza.NET.Models.Redirect;
 
@@ -52,7 +51,7 @@ public class Redirect
     /// Parsed domains from the defined sources
     /// </summary>
     [JsonPropertyName("domains")]
-    public IReadOnlyList<Domain> Domains { get; init; }
+    public IReadOnlyList<Domain.Domain> Domains { get; init; }
 
     /// <summary>
     /// Destination URL, i.e. where to redirect to

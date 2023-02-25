@@ -51,7 +51,7 @@ public class EmailForward
     /// Information about the domain of the email forward.
     /// </summary>
     [JsonPropertyName("domain")] 
-    public Domain Domain { get; init; }
+    public Domain.Domain? Domain { get; init; }
 
     /// <summary>
     /// The alias path (i.e. the part before the '@'). Using a '*' character will create a catch-all email forward.

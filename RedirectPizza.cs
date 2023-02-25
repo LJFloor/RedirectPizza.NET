@@ -34,4 +34,7 @@ public class RedirectPizza
     /// </summary>
     public TeamEndpoint Team => _team ??= new TeamEndpoint(_client);
     private TeamEndpoint? _team;
+
+    public DomainEndpoint Domains => _domains ??= new DomainEndpoint(_client);
+    private DomainEndpoint? _domains;
 }

@@ -1,6 +1,4 @@
-using System.Globalization;
 using RedirectPizza.NET.Exceptions;
-using RedirectPizza.NET.Models;
 using RedirectPizza.NET.Models.General;
 using RedirectPizza.NET.Models.Redirect;
 using RestSharp;
@@ -16,7 +14,7 @@ public class RedirectEndpoint : Endpoint
     /// </summary>
     /// <param name="page">The page to show</param>
     /// <param name="perPage">The amount of items to show per page. Default is all.</param>
-    /// <returns>RedirectCollection</returns>
+    /// <returns>RedirectPizzaCollection</returns>
     public async Task<RedirectPizzaCollection<Redirect>> ListRedirectsAsync(int page = 1, int perPage = int.MaxValue)
     {
         var redirections = await Get<RedirectPizzaCollection<Redirect>>($"redirects?page={page}&per_page={perPage}");
@@ -29,7 +27,7 @@ public class RedirectEndpoint : Endpoint
     /// </summary>
     /// <param name="page">The page to show</param>
     /// <param name="perPage">The amount of items to show per page. Default is all.</param>
-    /// <returns>RedirectCollection</returns>
+    /// <returns>RedirectPizzaCollection</returns>
     public RedirectPizzaCollection<Redirect> ListRedirects(int page = 1, int perPage = int.MaxValue) =>
         ListRedirectsAsync(page, perPage).GetAwaiter().GetResult();
 

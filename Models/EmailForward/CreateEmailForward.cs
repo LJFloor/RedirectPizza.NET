@@ -1,5 +1,4 @@
 using System.Text.Json.Serialization;
-using RedirectPizza.NET.Models.General;
 
 namespace RedirectPizza.NET.Models.EmailForward;
 
@@ -36,7 +35,7 @@ internal class UpdateEmailForward
     /// Domain of the email forward for the 'from' part. Must be a domain you own and can manage DNS for.
     /// </summary>
     [JsonPropertyName("domain")]
-    public Domain? Domain { get; set; }
+    public Domain.Domain? Domain { get; set; }
 
     /// <summary>
     /// Where to forward the email to. Must be a valid email address.

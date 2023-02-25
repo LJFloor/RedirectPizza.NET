@@ -13,6 +13,7 @@ var pizza = new RedirectPizza.NET.RedirectPizza(apiToken);
 - `Redirects`
 - `EmailForwards`
 - `Team`
+- `Domains`
 
 # Metadata
 The `ListRedirects()` and `ListEmailForwards()` methods return two things: The `Items` and `Meta` information.
